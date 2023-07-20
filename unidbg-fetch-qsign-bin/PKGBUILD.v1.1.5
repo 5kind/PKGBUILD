@@ -10,7 +10,7 @@ arch=('any')
 url="https://github.com/fuqiuluo/unidbg-fetch-qsign"
 license=('GPL3')
 depends=('java-environment>=8')
-backup=("opt/unidbg-fetch-qsign/txlib/current/config.json")
+backup=("opt/unidbg-fetch-qsign/txlib/$_qqver/config.json")
 source=(
     "${url}/releases/download/${pkgver}/qsign-${pkgver}.zip"
     "${_pkgname}.service"
