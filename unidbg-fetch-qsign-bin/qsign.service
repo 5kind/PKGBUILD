@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 WorkingDirectory=/opt/unidbg-fetch-qsign
-ExecStart=/opt/unidbg-fetch-qsign/bin/unidbg-fetch-qsign --basePath=txlib/current
+ExecStart=/opt/qsign/bin/unidbg-fetch-qsign --basePath=txlib/current
 Restart=always
 RestartSec=1s
 

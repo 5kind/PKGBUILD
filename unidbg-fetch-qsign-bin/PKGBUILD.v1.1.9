@@ -2,7 +2,6 @@
 
 _pkgname=unidbg-fetch-qsign
 pkgname=${_pkgname}-bin
-_release=${_pkgname}.3.zip
 pkgver=1.1.9
 _qqver=8.9.63
 pkgrel=1
@@ -10,28 +9,38 @@ arch=('any')
 license=('GPL3')
 _provide=qsign
 provides=("$_provide")
-depends=('java-environment>=8')
+_zip_file=${_pkgname}-${pkgver}.zip
+_release=${_pkgname}.3.zip
+depends=('java-runtime>=8')
 pkgdesc='获取QQSign参数通过Unidbg，开放HTTP API。'
-backup=("opt/${_pkgname}/txlib/${_qqver}/config.json")
+backup=("opt/${_provide}/txlib/${_qqver}/config.json")
 url='https://github.com/fuqiuluo/unidbg-fetch-qsign'
+
 source=(
     "${srcdir}${_release}::${url}/releases/download/${pkgver}/${_release}"
     "${_provide}.service"
     "${_provide}@.service"
     )
+
 sha256sums=(
-    '936d04553b85cbd5876b533c8008cfe73b1db53ab7d70051931bdab8d96ad998'
-    '0bfaff35e05059ba343faf039c39f7d3e0d5652f82266adf94db2868bfc6697d'
-    'fe560a06ef6ba20210fbf37239974210ef8230bccd0506f1fa4601fb13b9ab85'
+    '6c0847b47bb98e9813d315751f14789467b10676fe83344f7b5f1410574392c5'
+    '38274bb1749e2717b1fb82b8b02ded2989c7793e98ee5e7bacbdd44151a6d448'
+    '795d8e5e2b460d1b6e1a123610e98afb889a5f31008041dffe0ff6c1ca8c86e0'
     )
+
+build() {
+  if [[ ! -d ${_pkgname}-${pkgver} ]] ;then
+    unzip "${_zip_file}"
+  fi
+}
 
 package() {
   cd "${pkgdir}"
   mkdir -p "opt" "usr/lib/systemd/system"
-  cp -r "${srcdir}/${_pkgname}-${pkgver}" "opt/${_pkgname}"
+  cp -r "${srcdir}/${_pkgname}-${pkgver}" "opt/${_provide}"
 
-  mkdir -p "opt/${_pkgname}/txlib"
-  cd "opt/${_pkgname}/txlib"
+  mkdir -p "opt/${_provide}/txlib"
+  cd "opt/${_provide}/txlib"
   ln -s "${_qqver}" "current"
 
   cd "${pkgdir}/usr/lib/systemd/system"
