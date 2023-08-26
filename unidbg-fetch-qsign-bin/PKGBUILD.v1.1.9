@@ -2,8 +2,8 @@
 
 _pkgname=unidbg-fetch-qsign
 pkgname=${_pkgname}-bin
-_release=${_pkgname}-${pkgver}.zip
-pkgver=1.1.0
+_release=${_pkgname}.3.zip
+pkgver=1.1.9
 _qqver=8.9.63
 pkgrel=1
 arch=('any')
@@ -12,6 +12,7 @@ _provide=qsign
 provides=("$_provide")
 depends=('java-environment>=8')
 pkgdesc='获取QQSign参数通过Unidbg，开放HTTP API。'
+backup=("opt/${_pkgname}/txlib/${_qqver}/config.json")
 url='https://github.com/fuqiuluo/unidbg-fetch-qsign'
 source=(
     "${srcdir}${_release}::${url}/releases/download/${pkgver}/${_release}"

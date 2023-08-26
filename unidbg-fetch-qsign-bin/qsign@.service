@@ -1,0 +1,12 @@
+[Unit]
+Description=unidbg-fetch-qsign --basePath=txlib/%i
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/unidbg-fetch-qsign
+ExecStart=/opt/unidbg-fetch-qsign/bin/unidbg-fetch-qsign --basePath=txlib/%i
+Restart=always
+RestartSec=1s
+
+[Install]
+WantedBy=multi-user.target
