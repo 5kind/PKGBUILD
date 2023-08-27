@@ -3,7 +3,7 @@ Description=unidbg-fetch-qsign --basePath=txlib/%i
 After=network.target
 
 [Service]
-WorkingDirectory=/opt/unidbg-fetch-qsign
+WorkingDirectory=/opt/qsign
 ExecStart=/opt/qsign/bin/unidbg-fetch-qsign --basePath=txlib/%i
 Restart=always
 RestartSec=1s
