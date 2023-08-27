@@ -1,0 +1,43 @@
+out() { printf "$1 $2\n" "${@:3}"; }
+error() { out "==> ERROR:" "$@"; } >&2
+warning() { out "==> WARNING:" "$@"; } >&2
+msg() { out "==>" "$@"; }
+
+replace_bin_local(){
+    [[ -f "$1" ]] && [[ ! -L "$1" ]] &&\
+    mv -v "/usr/bin/$1" "/usr/bin/$1.real"
+    ln -sfr "/usr/local/bin/$1" "/usr/bin/$1"
+}
+
+recover_bin(){
+    if [[ -f "/usr/bin/$1.real" ]] && [[ -L "/usr/bin/$1" ]] ;then
+        rm -f "/usr/bin/$1"
+        mv "/usr/bin/$1.real" "/usr/bin/$1"
+    else
+        rm -f "/usr/bin/$1.real"
+    fi
+}
+
+post_install(){
+    warning "Termux-Systemctl will replace /usr/bin/systemctl /usr/bin/journalctl by default!!!"
+    read -p "Do you want to continue? (y/n): " answer
+        case $answer in
+            [Nn]* )
+                echo "Exiting..."
+                break
+                ;;
+            * )
+                replace_bin_local systemctl
+                replace_bin_local journalctl
+                ;;
+        esac
+}
+
+post_upgrade(){
+    post_install
+}
+
+post_remove(){
+    recover_bin systemctl
+    recover_bin journalctl
+}

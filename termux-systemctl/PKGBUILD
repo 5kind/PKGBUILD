@@ -1,0 +1,49 @@
+# Maintainer: 5kind shikabane320@gmail.com
+
+_pkgname=docker-systemctl-replacement
+pkgname=termux-systemctl
+pkgver=1930.190870f
+pkgrel=1
+pkgdesc="termux systemctl replacement - allows to deploy to systemd-controlled containers without starting an actual systemd daemon"
+_url='https://github.com/gdraheim/docker-systemctl-replacement'
+url='https://github.com/5kind/termux-systemctl'
+arch=('any')
+license=('EUPL')
+depends=('python' 'sudo')
+source=("https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/EUPL-LICENSE.md"
+	"${pkgname}.install"
+	"${_pkgname}::git+${_url}"
+	"${pkgname}::git+${url}")
+
+b2sums=('7c81e385a62dbee1326de1004377b5dabc4ed795542e5f09dd3d4a381ae25992a36cae90c86a2c785b84a56db807836a70afd49ae9f5f499d601cb72f18074ac'
+	'68d35f93640048bea40068f860deeaea4650fd79b3a91c1a1830e437bedc22c8e436745f3833eef435d3907f7ae483fd74be22d2c7c81999deb1140c44968a82'
+	'SKIP'
+	'SKIP')
+
+install="${pkgname}.install"
+
+pkgver() {
+	cd "${srcdir}/${_pkgname}"
+	echo "$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
+}
+
+package() {
+	cd "${srcdir}/${_pkgname}"
+	install -Dm 755 "files/docker/systemctl3.py"	"${pkgdir}/usr/local/bin/systemctl3.py"
+	install -Dm 755 "files/docker/journalctl3.py"	"${pkgdir}/usr/local/bin/journalctl"
+
+	cd "${srcdir}/${pkgname}"
+	install -Dm 755 "bin/systemctl"	"${pkgdir}/usr/local/bin/systemctl"
+	install -Dm 755 "bin/start"		"${pkgdir}/usr/local/bin/start"
+	install -Dm 755 "bin/init"		"${pkgdir}/usr/local/bin/init"
+
+	cd "${pkgdir}/usr/local/bin"
+	ln -s init	telinit
+	ln -s start stop
+	ln -s start halt
+	ln -s start reboot
+	ln -s start shutdown
+	ln -s start poweroff
+
+	install -Dm 644 EUPL-LICENSE.md "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
