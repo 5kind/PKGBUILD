@@ -12,3 +12,4 @@
 pkg/
 src/
 *bak/
+termux-systemctl/*systemctl*/

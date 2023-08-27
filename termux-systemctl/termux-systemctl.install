@@ -20,17 +20,8 @@ recover_bin(){
 
 post_install(){
     warning "Termux-Systemctl will replace /usr/bin/systemctl /usr/bin/journalctl by default!!!"
-    read -p "Do you want to continue? (y/n): " answer
-        case $answer in
-            [Nn]* )
-                echo "Exiting..."
-                break
-                ;;
-            * )
-                replace_bin_local systemctl
-                replace_bin_local journalctl
-                ;;
-        esac
+    replace_bin_local systemctl
+    replace_bin_local journalctl
 }
 
 post_upgrade(){

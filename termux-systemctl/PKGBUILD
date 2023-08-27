@@ -16,7 +16,7 @@ source=("https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement
 	"${pkgname}::git+${url}")
 
 b2sums=('7c81e385a62dbee1326de1004377b5dabc4ed795542e5f09dd3d4a381ae25992a36cae90c86a2c785b84a56db807836a70afd49ae9f5f499d601cb72f18074ac'
-	'68d35f93640048bea40068f860deeaea4650fd79b3a91c1a1830e437bedc22c8e436745f3833eef435d3907f7ae483fd74be22d2c7c81999deb1140c44968a82'
+	'771b875c9eb120617be65cc74279a9e17fcd3aa5c8a08e6934189e401b75b1ff268b0f430a9053e8d71baf16fde52fc7aa0a9fb5a728ee1b5e3672c1651090da'
 	'SKIP'
 	'SKIP')
 
@@ -45,5 +45,5 @@ package() {
 	ln -s start shutdown
 	ln -s start poweroff
 
-	install -Dm 644 EUPL-LICENSE.md "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+	install -Dm 644 ${srcdir}/EUPL-LICENSE.md "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
