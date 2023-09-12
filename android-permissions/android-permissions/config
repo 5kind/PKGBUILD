@@ -1,0 +1,8 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = true
+[remote "origin"]
+	url = https://github.com/5kind/android-permissions
+	fetch = +refs/*:refs/*
+	mirror = true

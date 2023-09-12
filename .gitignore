@@ -13,3 +13,5 @@ pkg/
 src/
 *bak/
 termux-systemctl/*systemctl*/
+fabric-server/
+forge-server/

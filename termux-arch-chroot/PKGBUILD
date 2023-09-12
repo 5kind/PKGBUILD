@@ -1,0 +1,27 @@
+# Maintainer: 5kind shikabane320@gmail.com
+
+_pkgname=termux-arch-chroot
+pkgname=${_pkgname}-git
+pkgver=1.0
+pkgrel=1
+pkgdesc='A Chroot Container Script'
+arch=('any')
+url='https://github.com/5kind/termux-arch-chroot'
+license=('GPL2')
+conflicts=('arch-install-scripts')
+source=("$_pkgname::git+${url}")
+sha256sums=('SKIP')
+
+package() {
+    cd "$srcdir/$_pkgname/system/bin"
+    install -Dm755 arch-chroot	"$pkgdir/usr/bin/arch-chroot"
+    install -Dm755 genfstab	"$pkgdir/usr/bin/genfstab"
+    install -Dm755 pacstrap	"$pkgdir/usr/bin/pacstrap"
+    install -Dm755 termux-arch-chroot "$pkgdir/usr/bin/termux-arch-chroot"
+
+    cd "$srcdir/$_pkgname/system/lib/systemd/system"
+    install -Dm644 arch-chroot@.service	\
+	    "$pkgdir/usr/lib/systemd/system/arch-chroot@.service"
+    install -Dm644 termux-arch-chroot@.service	\
+	    "$pkgdir/usr/lib/systemd/system/termux-arch-chroot@.service"
+}

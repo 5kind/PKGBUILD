@@ -1,0 +1,78 @@
+#!/bin/bash
+out_android_sysusers(){
+# S1: generate original android_sysusers
+    awk -F ' ' '
+        /^#define AID_/ {
+            type="u"; 
+            name=tolower(substr($2, 5)); 
+            id=$3; 
+            gecos=substr($0, index($0,"/*")+2, index($0,"*/")-index($0,"/*")-2); 
+            home="/"
+            shell=""
+            printf "%s\t%s\t%d\t\"%s\"\t%s\t%s\n", type, name, id, gecos, home, shell
+        }' ${1:-"android_filesystem_config.h"}
+}
+
+android_sysusers_correct() {
+  local replace_users=(
+  # see android_filesystem_config.h for details 
+    ["media_codec"]="mediacodec"
+    ["media_ex"]="mediaex"
+    ["media_drm"]="mediadrm"
+    # conflict with linux
+    ["nobody"]="aid_nobody"
+    ["dbus"]="aid_dbus"
+  )
+
+  awk -F'\t' '
+    {
+      gsub(/:/, "", $4);
+
+      for (user in replace_users) {
+        if ($2 == user) {
+          $2 = replace_users[user]
+        }
+      }
+
+      if ($2 !~ /(_start$|_end$)/ && $3 >= 1000 && $3 != 10000 && $3 != 100000 ) {
+        print $0
+      }
+    }
+  '
+}
+android_sysusers_correct() {
+  local replace_users=(
+    ["media_codec"]="mediacodec"
+    ["media_ex"]="mediaex"
+    ["media_drm"]="mediadrm"
+  )
+
+  # 使用 cat 命令读取标准输入，并将结果传递给 awk 命令进行处理
+  cat | awk -F'\t' '
+    BEGIN {
+      # 将关联数组 replace_users 转换为 awk 可接受的格式
+      for (key in replace_users) {
+        replace[key] = replace_users[key]
+      }
+    }
+    {
+      gsub(/:/, "", $4);
+
+      for (user in replace) {
+        if ($2 == user) {
+          $2 = replace[user]
+        }
+      }
+
+      if ($2 !~ /(_start$|_end$)/ && $3 >= 1000 && $3 != 10000 && $3 != 100000 ) {
+        print $0
+      }
+    }
+  ' replace_users="${!replace_users[*]}"
+}
+
+android_sysusers_generator(){
+    out_android_sysusers|android_sysusers_correct
+}
+
+android_sysusers_generator

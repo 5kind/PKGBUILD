@@ -1,15 +1,13 @@
-pkgname=android-sysusers
-pkgver=4.19 # Kernel Version
+_pkgname=android-permissions
+pkgname=${_pkgname}-git
+pkgver=4.19
 pkgrel=1
 pkgdesc="According to android_filesystem_config.h generate android.sysusers"
-usl="https://source.android.google"
+url=https://github.com/5kind/${_pkgname}
 arch=('any')
 license=('Apache-2.0')
-source=("android_filesystem_config.h")
-sha256sums=(
-    'b0ecde3c67288702ab93c6e460d3dc939205b188dff2b7ed1c304b71cd5486ec'
-    # 'SKIP'
-    )
+source=("${pkgname}::git+${url}")
+sha256sums=('SKIP')
 
 out_android_sysusers(){
 # S1: generate original android_sysusers
