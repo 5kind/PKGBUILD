@@ -1,0 +1,8 @@
+post_upgrade(){
+    printf "\033[31m Start the server to generate a template server.properties and eula.txt file \033[0m\n"
+    printf "\033[31m Modify eula.txt and server.properties : \033[0m\n"
+    printf "\033[31m Change level-type=minecraft\:normal to level-type=carpetskyadditions\:skyblock \033[0m\n"
+    printf "\033[31m Move carpetskyadditions\:skyblock from initial-disabled-packs to initial-enabled-packs \033[0m\n"
+    printf "\033[31m Optionally move carpetskyadditions\:skyblock_acacia from initial-disabled-packs to initial-enabled-packs for an Acacia Tree start \033[0m\n"
+    printf "\033[31m Start the server \033[0m\n"
+}
