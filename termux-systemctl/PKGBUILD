@@ -36,6 +36,7 @@ package() {
 	install -Dm 755 "bin/systemctl"	"${pkgdir}/usr/local/bin/systemctl"
 	install -Dm 755 "bin/start"		"${pkgdir}/usr/local/bin/start"
 	install -Dm 755 "bin/init"		"${pkgdir}/usr/local/bin/init"
+	install -Dm 755 "bin/unchroot"	"${pkgdir}/usr/local/bin/unchroot"
 
 	cd "${pkgdir}/usr/local/bin"
 	ln -s init	telinit
