@@ -11,12 +11,10 @@ arch=('any')
 license=('EUPL')
 depends=('python' 'sudo')
 source=("https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/EUPL-LICENSE.md"
-	"${pkgname}.install"
 	"${_pkgname}::git+${_url}"
 	"${pkgname}::git+${url}")
 
 b2sums=('7c81e385a62dbee1326de1004377b5dabc4ed795542e5f09dd3d4a381ae25992a36cae90c86a2c785b84a56db807836a70afd49ae9f5f499d601cb72f18074ac'
-	'771b875c9eb120617be65cc74279a9e17fcd3aa5c8a08e6934189e401b75b1ff268b0f430a9053e8d71baf16fde52fc7aa0a9fb5a728ee1b5e3672c1651090da'
 	'SKIP'
 	'SKIP')
 
@@ -45,6 +43,9 @@ package() {
 	ln -s start reboot
 	ln -s start shutdown
 	ln -s start poweroff
+
+	mkdir "${pkgdir}/usr/bin" && cd "${pkgdir}/usr/bin"
+	ln -s ../local/bin/systemctl3.py
 
 	install -Dm 644 ${srcdir}/EUPL-LICENSE.md "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
