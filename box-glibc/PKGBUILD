@@ -1,0 +1,28 @@
+# Maintainer: 5kind shikabane320@gmail.com
+
+_box=box86
+
+pkgname="${_box}-glibc"
+pkgver=2
+pkgrel=1
+license=('GPL3')
+arch=('armv7h' 'aarch64')
+pkgdesc="GNU C Library (${_box} version)"
+
+case ${_box} in
+	box86)
+		_ld_linux="ld-linux.so.${pkgver}"
+		_bit=32	;;
+	box64)
+		_ld_linux="ld-linux-x86-64.so.${pkgver}"
+		_bit=64	;;
+esac
+
+provides=("lib${_bit}-glibc")
+conflicts=("lib${_bit}-glibc")
+
+package(){
+	cd "$pkgdir"
+	mkdir -p usr/lib
+	ln -sr usr/bin/${_box} usr/lib/${_ld_linux}
+}

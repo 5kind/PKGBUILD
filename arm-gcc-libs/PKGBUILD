@@ -1,0 +1,39 @@
+# Maintainer: 5kind shikabane320@gmail.com
+
+_container='usr/lib/machines/armv7h'
+_ship="/${_container}"
+_applet='gcc-libs'
+
+if [ -d "${_ship}/lib" ] ;then
+	provides=("arm-gcc-libs" "arm-glibc")
+	_applet='glibc'
+	_prefix=${_container}
+else
+	depends=("arm-linux-gnueabihf-${_applet}")
+	provides=("arm-${_applet}")
+	_ship=${depends[@]}
+	_prefix=usr/arm-linux-gnueabihf
+fi
+
+pkgname=arm-${_applet}
+pkgver=3
+pkgrel=1
+license=('GPL3')
+arch=('aarch64')
+conflicts=("arm-${_applet}")
+pkgdesc="32-bit runtime ${_applet} shipped by ${_ship}"
+
+_package(){
+	cd "$pkgdir"
+	mkdir -p usr/lib
+	local lib=$(readlink -f /${_prefix}/lib)
+	ln -sr ${lib:1} usr/lib32
+	ln -sr usr/lib32/ld-linux-armhf.so.${pkgver} usr/lib/ld-linux-armhf.so.${pkgver}
+	ln -sr usr/lib32 lib32
+}
+
+package() {
+	if [ "$_applet" = "glibc" ] ;then
+		_package
+	fi
+}
