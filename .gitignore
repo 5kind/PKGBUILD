@@ -15,4 +15,4 @@ src/
 *backup*
 *.bak
 *.~
-
+tmp/
