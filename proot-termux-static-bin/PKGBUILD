@@ -1,0 +1,30 @@
+# Maintainer: Your Name <youremail@domain.com>
+pkgname=proot-termux-static-bin
+pkgver=5.1.0
+pkgrel=1
+pkgdesc="A copy of the PRoot project with patches applied to work better under Termux. (static binary version)"
+arch=("aarch64")
+url="https://github.com/nix-community/nix-on-droid"
+license=('GPL2')
+provides=("proot" "proot-bin" "proot-termux" "proot-static")
+conflicts=("proot")
+source=(
+	"proot_5.1.107-61_aarch64.deb"
+	"proot-static"
+)
+md5sums=(
+	'SKIP'
+	'SKIP'
+)
+
+prepare() {
+	tar -xvf data.tar.xz
+}
+
+package() {
+	local prefix=/data/data/com.termux/files/usr
+	local man="share/man/man1/proot.1.gz"
+
+	install -Dm644 "${srcdir}${prefix}/${man}" "${pkgdir}/usr/${man}"
+	install -Dm755 "proot-static" "${pkgdir}/usr/bin/proot"
+}
