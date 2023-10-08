@@ -18,7 +18,42 @@ md5sums=(
 )
 
 prepare() {
-	tar -xvf data.tar.xz
+tar -xvf data.tar.xz
+echo 'u proot - "Proot User" /srv/proot /bin/bash'>proot.sysusers
+srv_root="/srv/proot"
+echo "d ${srv_root} 0755 proot proot - -
+d ${srv_root}/dev	0500 proot proot - -
+d ${srv_root}/sys	0500 proot proot - -
+d ${srv_root}/proc	0500 proot proot - -
+L ${srv_root}/bin	- - - - usr/bin
+L ${srv_root}/lib	- - - - usr/lib
+L ${srv_root}/sbin	- - - - usr/sbin
+d ${srv_root}/etc	0755 proot proot - -
+d ${srv_root}/mnt	0755 proot proot - -
+d ${srv_root}/srv	0755 proot proot - -
+d ${srv_root}/opt	0755 proot proot - -
+d ${srv_root}/run	0755 proot proot - -
+d ${srv_root}/tmp	1777 proot proot - -
+d ${srv_root}/boot 	0755 proot proot - -
+d ${srv_root}/home	0755 proot proot - -
+d ${srv_root}/root 	0750 proot proot - -
+d ${srv_root}/media 0755 proot proot - -
+d ${srv_root}/usr/bin 0755 proot proot - -
+d ${srv_root}/usr/lib 0755 proot proot - -
+d ${srv_root}/usr/sbin 0755 proot proot - -
+d ${srv_root}/usr/local 0755 proot proot - -
+d ${srv_root}/var/cache	0755 proot proot - -
+d ${srv_root}/var/lib	0755 proot proot - -
+d ${srv_root}/var/log	0755 proot proot - -
+d ${srv_root}/var/opt	0755 proot proot - -
+d ${srv_root}/var/mail	0755 proot proot - -
+d ${srv_root}/var/tmp	1777 proot proot - -
+d ${srv_root}/var/local 0755 proot proot - -
+d ${srv_root}/var/spool 0755 proot proot - -
+d ${srv_root}/run/lock	1777 proot proot - -
+L ${srv_root}/var/run	- - - - ../run
+L ${srv_root}/var/lock	- - - - ../run/lock
+">proot.tmpfiles
 }
 
 package() {
@@ -27,4 +62,7 @@ package() {
 
 	install -Dm644 "${srcdir}${prefix}/${man}" "${pkgdir}/usr/${man}"
 	install -Dm755 "proot-static" "${pkgdir}/usr/bin/proot"
+
+	install -Dm644 "proot.sysusers" "${pkgdir}/usr/lib/sysusers.d/proot.conf"
+	install -Dm644 "proot.tmpfiles" "${pkgdir}/usr/lib/tmpfiles.d/proot.conf"
 }

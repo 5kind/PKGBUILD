@@ -8,7 +8,7 @@ pkgrel=1
 arch=('any')
 license=('GPL3')
 _provide=qsign
-provides=("$_provide")
+provides=("$_provide" "$_pkgname")
 _zip_file=${_pkgname}-${pkgver}.zip
 _release=${_pkgname}.3.zip
 depends=('java-runtime>=8')
@@ -20,28 +20,28 @@ source=(
     "${srcdir}${_release}::${url}/releases/download/${pkgver}/${_release}"
     "${_provide}.service"
     "${_provide}@.service"
-    )
+)
 
 sha256sums=(
     '6c0847b47bb98e9813d315751f14789467b10676fe83344f7b5f1410574392c5'
-    '3a00ad481bd9a4b1803348342f0dca5619025bcd6cf72818109da7f386695b52'
-    '55cc026fc9408ea279daff79d14468880cc084b33988ff6e7751ed82835aa55f'
+    'cae9fbcd3b211693250cdc2670a770c183e3bdbc5827d385438f583d15f501d2'
+    '78e0d544ba387ae2075218983766f9b852f243ec64890f0b2220bb2e8f7d461e'
 )
 
-build() {
-  if [[ ! -d ${_pkgname}-${pkgver} ]] ;then
+prepare() {
+  if [ ! -d ${_pkgname}-${pkgver} ] ;then
     unzip "${_zip_file}"
   fi
 }
 
 package() {
-  cd "${pkgdir}"
-  mkdir -p "opt" "usr/lib/systemd/system"
+  cd "$pkgdir"
+  mkdir -p opt etc usr/lib/systemd/system
   cp -r "${srcdir}/${_pkgname}-${pkgver}" "opt/${_provide}"
 
-  mkdir -p "opt/${_provide}/txlib"
-  cd "opt/${_provide}/txlib"
-  ln -s "${_qqver}" "current"
+  mkdir -p "opt/${_provide}/txlib"	# keep it for v1.1.0
+  ln -sr "opt/${_provide}/txlib/${_qqver}" "opt/${_provide}/txlib/current"
+  ln -sr "opt/${_provide}/txlib/current" "etc/${_provide}"
 
   cd "${pkgdir}/usr/lib/systemd/system"
   install -Dm644 "${srcdir}/${_provide}.service" "${_provide}.service"
