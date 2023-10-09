@@ -1,0 +1,34 @@
+# Maintainer: Jigsaw <j1g5aw@foxmail.com>
+# Maintainer: 5kind shikabane320@gmail.com
+
+_branch=master
+pkgname=go-cqhttp-${_branch}-git
+pkgver=1.1.0.r34.g642c746
+pkgrel=1
+pkgdesc="Lightweight, native cross-platform implementation of cqhttp in Golang (github ${_branch} branch version)."
+arch=("i686" "x86_64" "armv7h" "aarch64")
+url="https://github.com/Mrs4s/go-cqhttp/tree/${_branch}"
+license=("AGPL3")
+optdepends=("ffmpeg: support voice sending in any format")
+makedepends=("git" "go")
+provides=("go-cqhttp")
+conflicts=("go-cqhttp" "go-cqhttp-dev-git")
+
+source=("$pkgname::git+https://github.com/Mrs4s/go-cqhttp#branch=${_branch}")
+
+sha512sums=("SKIP")
+
+pkgver() {
+  cd "$pkgname"
+  git describe --long --tags | sed "s/^v//;s/\([^-]*.g\)/r\1/;s/-/./g"
+}
+
+build(){
+    cd "$pkgname"
+    go build -ldflags "-s -w -extldflags '-static'"
+}
+
+package() {
+    cd "$pkgname"
+    install -Dm755 "go-cqhttp" "${pkgdir}/usr/bin/go-cqhttp"
+}
