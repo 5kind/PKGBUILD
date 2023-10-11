@@ -3,6 +3,7 @@ Description=unidbg-fetch-qsign
 After=network.target
 
 [Service]
+User=qsign
 Environment="JAVA_HOME=/usr/lib/jvm/default"
 WorkingDirectory=/opt/qsign
 ExecStart=/usr/bin/env bash bin/unidbg-fetch-qsign --basePath=txlib/current

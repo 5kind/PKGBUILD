@@ -20,12 +20,18 @@ source=(
     "${srcdir}${_release}::${url}/releases/download/${pkgver}/${_release}"
     "${_provide}.service"
     "${_provide}@.service"
+    "${_provide}.sysusers"
+    "${_pkgname}.service"
+    "${_pkgname}@.service"
 )
 
-sha256sums=(
-    '6c0847b47bb98e9813d315751f14789467b10676fe83344f7b5f1410574392c5'
-    'cae9fbcd3b211693250cdc2670a770c183e3bdbc5827d385438f583d15f501d2'
-    '78e0d544ba387ae2075218983766f9b852f243ec64890f0b2220bb2e8f7d461e'
+sha512sums=(
+    '085f01b9bb057294356929954abe1ca3441d2fcde6cddbf6c0cdda08e647931ebd8bb849e0d80f089236bdb60e7d777aed520830db2faaf0fb2bddd809793b35'
+    'e7026baf3aedc039b362b30bf0a49a1555dbda8c6926e3429355e744eb2e70e3218140938d0e40895cc94c3c1834fbeae227dd3ebe1f94886a934468f6e5c38c'
+    '96c6b90cde37a008c2e961a3b08a68f3fe9c7a0a5f8ef78f535196c39104f01b2a6b1b01f63bf006a4446d7f6526972781475fdf4b58e3b96e3cbb95baf2b691'
+    'a434d8a79eb65c1168bf0fecb1b44dc303c2810679a5051aa9230ef60352e265f797b7d0f2d9afacc8f82059031f4af63c95c17c042b1b0fcaf875947a99aded'
+    '885c76a134f7dea788a8ef9a01d4e0b489dca25e2c26c5fe25e8df4ae471270c9bb840247c8b5392d64fb686660b78b7b49f2d8b2cb94096158c71992eed2286'
+    '8ebaa54ada9949fa4af884152b383e57134ab7f60820d3307e2503b0cc369f0e77aae9b70d0bf2659b596fac4a925235ca3027ffb756595033f96c8623517699'
 )
 
 prepare() {
@@ -43,7 +49,9 @@ package() {
   ln -sr "opt/${_provide}/txlib/${_qqver}" "opt/${_provide}/txlib/current"
   ln -sr "opt/${_provide}/txlib/current" "etc/${_provide}"
 
-  cd "${pkgdir}/usr/lib/systemd/system"
-  install -Dm644 "${srcdir}/${_provide}.service" "${_provide}.service"
-  install -Dm644 "${srcdir}/${_provide}@.service" "${_provide}@.service"
+  install -Dm644 "${srcdir}/${_provide}.service" "${pkgdir}/usr/lib/systemd/system/${_provide}.service"
+  install -Dm644 "${srcdir}/${_provide}@.service" "${pkgdir}/usr/lib/systemd/system/${_provide}@.service"
+  install -Dm644 "${srcdir}/${_provide}.sysusers" "${pkgdir}/usr/lib/sysusers.d/${_provide}.conf"
+  install -Dm644 "${srcdir}/${_pkgname}.service" "${pkgdir}/usr/lib/systemd/system/${_pkgname}.service"
+  install -Dm644 "${srcdir}/${_pkgname}@.service" "${pkgdir}/usr/lib/systemd/system/${_pkgname}@.service"
 }
