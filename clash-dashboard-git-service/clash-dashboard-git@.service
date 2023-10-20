@@ -1,0 +1,12 @@
+[Unit]
+Description=A rule based proxy in Go with dashboard.
+After=network.target
+
+[Service]
+Type=simple
+User=clash
+Restart=on-abort
+ExecStart=/usr/bin/clash -ext-ui /usr/share/clash-dashboard-git -f /etc/clash/%i.yaml -d /etc/clash
+
+[Install]
+WantedBy=multi-user.target
