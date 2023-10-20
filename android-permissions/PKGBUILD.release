@@ -7,6 +7,7 @@ pkgdesc="According to android_filesystem_config.h generate android.sysusers"
 url=https://github.com/5kind/${_pkgname}
 arch=('any')
 license=('Apache-2.0')
+provides=("${_pkgname}")
 source=("${_pkgname}::git+${url}")
 sha256sums=('SKIP')
 
