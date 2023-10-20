@@ -2,7 +2,7 @@
 
 _pkgname=docker-systemctl-replacement
 pkgname=termux-systemctl
-pkgver=1930.190870f
+pkgver=1932.b18d67e
 pkgrel=1
 pkgdesc="termux systemctl replacement - allows to deploy to systemd-controlled containers without starting an actual systemd daemon"
 _url='https://github.com/gdraheim/docker-systemctl-replacement'
@@ -28,13 +28,13 @@ pkgver() {
 package() {
 	cd "${srcdir}/${_pkgname}"
 	install -Dm 755 "files/docker/systemctl3.py"	"${pkgdir}/usr/local/bin/systemctl3.py"
-	install -Dm 755 "files/docker/journalctl3.py"	"${pkgdir}/usr/local/bin/journalctl"
 
 	cd "${srcdir}/${pkgname}"
-	install -Dm 755 "bin/systemctl"	"${pkgdir}/usr/local/bin/systemctl"
-	install -Dm 755 "bin/start"	"${pkgdir}/usr/local/bin/start"
-	install -Dm 755 "bin/init"	"${pkgdir}/usr/local/bin/init"
+	install -Dm 755 "bin/systemctl"		"${pkgdir}/usr/local/bin/systemctl"
+	install -Dm 755 "bin/journalctl"	"${pkgdir}/usr/local/bin/journalctl"
 	install -Dm 755 "bin/unchroot"	"${pkgdir}/usr/local/bin/unchroot"
+	install -Dm 755 "bin/start"		"${pkgdir}/usr/local/bin/start"
+	install -Dm 755 "bin/init"		"${pkgdir}/usr/local/bin/init"
 
 	cd "${pkgdir}/usr/local/bin"
 	ln -s init  telinit
@@ -45,7 +45,6 @@ package() {
 	ln -s start poweroff
 
 	mkdir "${pkgdir}/usr/bin" && cd "${pkgdir}/usr/bin"
-	ln -s ../local/bin/systemctl3.py
 
 	install -Dm 644 ${srcdir}/EUPL-LICENSE.md "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }

@@ -1,0 +1,31 @@
+_pkgname=android-permissions
+pkgname=${_pkgname}-git
+pkgver=android.r14.0.0_r2.1456.g3ef4da2f6
+pkgrel=1
+pkgdesc="According to android_filesystem_config.h generate android.sysusers"
+url=https://github.com/5kind/${_pkgname}
+arch=('any')
+license=('Apache-2.0')
+source=("${_pkgname}::git+${url}")
+sha256sums=('SKIP')
+
+prepare(){
+    cd "${srcdir}/${_pkgname}"
+    git submodule update --init --recursive
+}
+
+pkgver(){
+    cd "${srcdir}/${_pkgname}/core"
+    git describe --tags --long | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+    cd "${srcdir}/${_pkgname}"
+    bash android-permission-generator > "${_pkgname}.sysusers"
+}
+
+package() {
+    cd "${srcdir}/${_pkgname}"
+    install -Dm644 android_filesystem_config.h "${pkgdir}/usr/include/${_pkgname}/android_filesystem_config.h"
+    install -Dm644 "${_pkgname}.sysusers" "${pkgdir}/usr/lib/sysusers.d/${_pkgname}.conf"
+}
