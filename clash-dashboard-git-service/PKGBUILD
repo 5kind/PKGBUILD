@@ -10,14 +10,14 @@ provides=('clash-sysusers' 'clash-tmpfiles')
 conflicts=('clash-sysusers' 'clash-tmpfiles')
 source=(
 	'clash-dashboard-git.service'
-    'clash-dashboard-git@.service'
+	'clash-dashboard-git@.service'
 	'clash.sysusers'
 	'clash.tmpfiles'
 )
 
 sha256sums=(
-	'62d6402c9d4519b2908acc0fdf854ebc33252f472a55aa209a8dd9ba3f629d5b'
-	'75166ca5ca733e6dc6401ab6309e7392e680617704970d8dd39856d7f0bd6842'
+	'33f7c5228fceefb5c3e69bafe8a08ad57529ba5ffa6d55aa700c154ec3f7643d'
+	'6dbe37cbe3af5a870468240278b990b0ca1f9f9cf5928572298926646ff853a1'
 	'2a5ef567c965218b0398489b79ae9c67e64eab790cc1bef78d78d5299fc181e2'
 	'db4faf8c62b37f3ed362caff8724550ab388dfab8eab10d56d4086296fdf28e9'
 )

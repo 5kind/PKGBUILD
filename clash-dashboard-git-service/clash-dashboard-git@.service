@@ -6,7 +6,8 @@ After=network.target
 Type=simple
 User=clash
 Restart=on-abort
-ExecStart=/usr/bin/clash -ext-ui /usr/share/clash-dashboard-git -f /etc/clash/%i.yaml -d /etc/clash
+ExecStart=/usr/bin/clash -ext-ui /usr/share/clash-dashboard-git -ext-ctl 127.0.0.1:9090 -d /etc/clash -f /etc/clash/%i.yaml
+ExecReload=/usr/bin/kill -HUP $MAINPID
 
 [Install]
 WantedBy=multi-user.target
