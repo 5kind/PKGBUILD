@@ -1,0 +1,30 @@
+# Maintainer: Your Name <your.email@example.com>
+
+pkgname=box86-patchelf
+provides=('box86')
+pkgver=0.3.7
+pkgrel=1
+pkgdesc="Linux Userspace x86 Emulator with a twist"
+arch=('armv7h' 'aarch64')  # Assuming ARM architecture
+url="https://github.com/ptitSeb/box86"
+license=('MIT')
+makedepends=('patchelf')
+source=("box86-$pkgver.deb::https://raw.githubusercontent.com/ryanfortner/box86-debs/master/debian/box86-generic-arm_0.3.7%2B20240524.2e589f4-1_armhf.deb")
+sha256sums=('SKIP')  # Update with actual SHA256 checksum if available
+
+package() {
+    cd "$srcdir"
+    
+    # Extract data.tar.* from the deb package
+    tar xf data.tar.*
+    
+    # Copy the box86 binary to the package directory
+    install -Dm755 ./usr/local/bin/box86 "$pkgdir/usr/bin/box86"
+    
+    # Modify the dynamic library search path
+    patchelf --set-rpath '/usr/local/lib32:/usr/lib32:/lib32' "$pkgdir/usr/bin/box86"
+
+    # Move the box86 doc/etc file to the $pkgdir
+    mv etc "$pkgdir" && mkdir -p "$pkgdir/usr/share/doc"
+    mv usr/doc/box86-generic-arm "$pkgdir/usr/share/doc/box86"
+}
